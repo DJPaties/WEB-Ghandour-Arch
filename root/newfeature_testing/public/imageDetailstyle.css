@@ -1,0 +1,126 @@
+/* Reset some default styling */
+body, h1, p, ul, li {
+  margin: 0;
+  padding: 0;
+}
+
+/* Set some global styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  text-align: center;
+  font-size: xx-large;
+}
+
+.image-detail-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* padding: 10px; */
+
+}
+
+.image-detail {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.image-detail img {
+  max-width: 100%;
+  max-height: 400px;
+}
+
+.input-container {
+  margin-bottom: 10px;
+}
+
+.input-container label {
+  font-size: 16px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+#project-specs {
+  margin-bottom: 10px;
+}
+
+.project-specs-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.project-spec {
+  flex-grow: 1;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.remove-project-spec {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+#add-project-spec-row {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+#submit-Details {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.image-details-submit {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Styling for the input images button */
+#image-input {
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* Styling for the image slider */
+.image-slider {
+  display: flex;
+  overflow-x: scroll;
+  margin-top: 10px;
+}
+
+.image-slider img {
+  max-width: 150px;
+  max-height: 100px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}

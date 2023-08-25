@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Detail</title>
+    <link rel="stylesheet" href="imageDetailstyle.css"> <!-- Include your CSS stylesheet here -->
+</head>
+<body>
+    <div class="image-detail-container">
+        <div class="image-detail">
+            <img id="image-detail" src="/" alt="">
+            <label id="image-description"></label>
+        </div>
+        
+        
+        <!-- New input fields -->
+        <div class="input-container">
+            <label for="type-project">Type/Project:</label>
+            <input type="text" id="type-project" name="type-project">
+        </div>
+        <div class="input-container">
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location">
+        </div>
+        <div class="input-container">
+            <label for="area">Area:</label>
+            <input type="text" id="area" name="area">
+        </div>
+        <div class="input-container">
+            <label for="client">Client:</label>
+            <input type="text" id="client" name="client">
+        </div>
+        <div class="input-container">
+            <label for="objective">Objective:</label>
+            <input type="text" id="objective" name="objective">
+        </div>
+        <div class="input-container">
+            <label for="project-specs">Project Specs:</label>
+            <div id="project-specs">
+                <div class="project-specs-row">
+                    <input type="text" name="project-spec" class="project-spec">
+                    <button class="remove-project-spec" id="remove-row">Remove</button>
+                </div>
+                <!-- More rows can be added dynamically with JavaScript -->
+            </div>
+            <button id="add-project-spec-row">Add Row</button>
+        </div>
+        
+        <!-- Input for multiple images -->
+        <div class="input-container">
+            <label for="image-input">Insert Images:</label>
+            <input type="file" id="image-input" name="image" accept="image/*" multiple>
+        </div>
+        <div class="image-slider">
+            <!-- Images inserted will be displayed here -->
+        </div>
+        
+        <!-- Photo at the bottom -->
+        <div class="image-details-submit">
+            <button id="submit-Details">Save Details</button>
+        </div>
+    </div>
+
+    <script src="imageDetail.js"></script>
+</body>
+</html>

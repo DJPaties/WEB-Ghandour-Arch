@@ -1,0 +1,143 @@
+/* Default styling for the image container */
+.DescriptivePhoto {
+  max-width: 520px;
+  max-height: 320px;
+  padding: 5%;
+  position: relative;
+  display: inline-block;
+  margin: 10px;
+  text-align: center; /* Center align the contents */
+  vertical-align: top;
+}
+
+.static_image {
+  max-width: 100%;
+  max-height: 100%;
+  transition: transform 0.3s ease; /* Add a smooth transition effect */
+  padding: 15px;
+}
+
+#toptitle{
+  
+  font-size: 185%;
+  text-align: center;
+}
+
+
+/* Styling for the image on hover */
+.DescriptivePhoto:hover .static_image {
+  transform: scale(1.05); /* Enlarge the image slightly on hover */
+  cursor: pointer;
+}
+
+/* Styling for the description */
+#imgDesc {
+  position: absolute;
+  top: 50%; /* Vertically align the description in the middle */
+  left: 50%; /* Horizontally align the description in the middle */
+  transform: translate(-50%, -50%); /* Center the description */
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  color: rgb(17, 17, 17);
+  padding: 5px;
+  margin: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1; /* Place the description above the image */
+}
+
+.DescriptivePhoto:hover #imgDesc {
+  opacity: 1;
+}
+
+/* Styling for the delete button */
+.deletePhoto {
+  display: none;
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.DescriptivePhoto:hover .deletePhoto {
+  display: block;
+}
+#image-form-block{
+  padding-left: 20px;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  gap: 35px;
+  text-align: center;
+  position: relative;
+  left: 30%;
+}
+/* Styling for the text input */
+#description-input {
+  border: none;
+  border-bottom: 1px solid gray;
+  background-color: transparent;
+  outline: none;
+  transition: border-color 0.3s ease;
+  padding-left: 15px;
+  width: 30%;
+  font-size: 150%;
+}
+
+#description-input:focus {
+  border-color: blue;
+}
+
+/* Styling for the "Add Photo" button */
+#image-form button {
+  background-color: turquoise;
+  color: black;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  transition: color 0.3s ease;
+  display: inline-block;
+  border-radius: 5px;
+  font-size: 150%;
+  
+}
+
+#image-form button:hover {
+  color: white;
+  background-color: darkblue;
+}
+
+/* Styling for the "Choose file" button */
+#image-input {
+  display:none /* Hide the actual input */
+}
+
+#image-input-label {
+  background-color: turquoise;
+  color: black;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  transition: color 0.3s ease;
+  display: inline-block;
+  border-radius: 5px;
+  border: 1px solid black;
+  font-size: 150% ;
+}
+
+#image-input-label:hover {
+  color: white;
+  background-color: darkblue;
+}
+
+
+
+/* Styling for the image gallery container */
+#image-gallery {
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}

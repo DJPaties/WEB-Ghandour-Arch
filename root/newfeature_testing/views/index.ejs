@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/newfeature_testing/public/style.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+</head>
+<body>
+    <h1>Image Gallery</h1>
+    
+    <form id="image-form" enctype="multipart/form-data" action="/upload" method="post">
+        <input type="file" name="image" accept="image/*">
+        <input type="text" name="description" placeholder="Description">
+        <button type="submit">Add Photo</button>
+    </form>
+    
+    <div id="image-gallery">
+        <% images.forEach(image => { %>
+            <div>
+                <img src="/uploads/<%= image.filename %>" alt="Image <%= image.id %>">
+                <p><%= image.description %></p>
+            </div>
+        <% }); %>
+    </div>
+    
+    <script src="/newfeature_testing/public/script.js"></script>
+</body>
+</html>
