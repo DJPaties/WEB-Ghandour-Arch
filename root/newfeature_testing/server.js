@@ -148,20 +148,44 @@ app.get("/images", (req, res) => {
     });
 });
 
+
+// saves the details of a specified image 
+// TODO save the images in the folder 
 app.post("/saveDetails", express.json(), (req, res) => {
-    const {id,type_project, location, area, client, objective, proj_specs } = req.body;
-    console.log(req.body)
-    db.run(
-        "UPDATE images SET type_project = ?, location = ?, area = ?, client = ?, objective = ?, project_specs = ? WHERE id = ?",
-        [type_project, location, area, client, objective, proj_specs, id], (err) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send("Error saving details to the database.");
-        } else {
-            res.sendStatus(200); // Success status
+    const { id, type_project, location, area, client, objective, proj_specs, selectedImageNamescombined } = req.body;
+
+    db.all(
+        "SELECT additional_images FROM images WHERE id = ?",
+        [id],
+        (err, add_image) => {
+            if (err) {
+                console.error(err);
+                res.status(500).json({ error: "Error retrieving images from database." });
+            } else {
+                const additionalImagesValue = add_image[0]?.additional_images;
+                console.log(`Value of additional_images: ${additionalImagesValue === null ? "null" : additionalImagesValue}`);
+                
+
+                // Now, update the details in the database
+                db.run(
+                    "UPDATE images SET type_project = ?, location = ?, area = ?, client = ?, objective = ?, project_specs = ? WHERE id = ?",
+                    [type_project, location, area, client, objective, proj_specs, id],
+                    (err) => {
+                        if (err) {
+                            console.error(err);
+                            res.status(500).send("Error saving details to the database.");
+                        } else {
+                            res.json(add_image);
+                            console.log(`These are the additional images: ${add_image}`);
+                        }
+                    }
+                );
+            }
         }
-    });
+    );
 });
+
+
 
 // Display images on homepage
 app.get("/", (req, res) => {

@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const imageDetails = await response.json();
+  //  document.getElementById('image-detail').src = `/uploads/resized-${imageId.filename}`
 
     // Populate input fields
     document.getElementById("type-project").value = imageDetails.type_project;
@@ -25,8 +26,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("client").value = imageDetails.client;
     document.getElementById("objective").value = imageDetails.objective;
 
-    // Populate dynamic input fields
-    const ipnut_specs = imageDetails.project_specs.split("/");
+
+    let ipnut_specs = imageDetails.project_specs
+    if(ipnut_specs === null){}
+      // Other code using ipnut_specs
+    else{
+    ipnut_specs = ipnut_specs.split("/")
     document.getElementById("input").value = ipnut_specs.shift()
     console.log(ipnut_specs)
     // const inputContainer = document.getElementById("inputFields");
@@ -46,7 +51,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         inputContainer.appendChild(newInput);
   }}
   console.log("Array is now empty.")
-
+    }
 
 } catch (error) {
     console.error(error);
@@ -105,8 +110,23 @@ document.addEventListener("DOMContentLoaded", async () => {
           const imageInput = document.getElementById("image-input");
     
           const selectedImageNames = [];
+          const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
           for (let i = 0; i < imageInput.files.length; i++) {
-              selectedImageNames.push(imageInput.files[i].name);
+              const file = imageInput.files[i];
+              const randomSuffix = generateRandomSuffix(6); // You can adjust the length of the suffix as needed
+              const originalName = file.name;
+              const extension = originalName.substring(originalName.lastIndexOf('.'));
+              const newName = `${originalName.substring(0, originalName.lastIndexOf('.'))}_${randomSuffix}${extension}`;
+              selectedImageNames.push(newName);
+          }
+
+          function generateRandomSuffix(length) {
+              let result = '';
+              for (let i = 0; i < length; i++) {
+                  result += characters.charAt(Math.floor(Math.random() * characters.length));
+              }
+              return result;
           }
           
           console.log("Selected image names:", selectedImageNames);
@@ -129,7 +149,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             inputFields.forEach((input, index) => {
                 proj_specs += input.value + "/";
             });
-    
+            let selectedImageNamescombined = "";
+            selectedImageNames.forEach((imageName, index) => {
+            selectedImageNamescombined += imageName;
+            if (index < selectedImageNames.length - 1) {
+                selectedImageNamescombined += "/";
+            }
+        });
+            console.log(selectedImageNamescombined)
             const data = {
                 id: imageId,
                 type_project,
@@ -138,7 +165,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 client,
                 objective,
                 proj_specs,
-                selectedImageNames,
+                selectedImageNamescombined,
             };
             // console.log(`DATA is;${data}`)
             try {
@@ -149,7 +176,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     },
                     body: JSON.stringify(data)
                 });
-    
+                
                 if (!response.ok) {
                     throw new Error('Failed to save details on the server.');
                 }
@@ -160,7 +187,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 console.error(error);
                 window.alert('Failed to save details on the server.');
             }
-    
+            
           }
       });
   } catch (error) {
