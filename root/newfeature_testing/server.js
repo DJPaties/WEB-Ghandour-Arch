@@ -63,7 +63,7 @@ app.delete("/delete/:id", (req, res) => {
 // Configure multer for image uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "uploads/");
+        cb(null, "additionalImages/"); //name of the folder
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -71,6 +71,11 @@ const storage = multer.diskStorage({
     },
 });
 const upload = multer({ storage });
+
+
+
+
+
 
 // Serve static files
 app.use(express.static("public"));
@@ -139,6 +144,21 @@ app.get("/images", (req, res) => {
             res.status(500).json({ error: "Error retrieving images from database." });
         } else {
             res.json(images);
+        }
+    });
+});
+
+app.post("/saveDetails", express.json(), (req, res) => {
+    const {id,type_project, location, area, client, objective, proj_specs } = req.body;
+    console.log(req.body)
+    db.run(
+        "UPDATE images SET type_project = ?, location = ?, area = ?, client = ?, objective = ?, project_specs = ? WHERE id = ?",
+        [type_project, location, area, client, objective, proj_specs, id], (err) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Error saving details to the database.");
+        } else {
+            res.sendStatus(200); // Success status
         }
     });
 });

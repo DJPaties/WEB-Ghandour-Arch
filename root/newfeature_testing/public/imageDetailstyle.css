@@ -3,7 +3,22 @@ body, h1, p, ul, li {
   margin: 0;
   padding: 0;
 }
-
+.input-container {
+  margin-bottom: 10px;
+}
+input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
 /* Set some global styles */
 body {
   font-family: Arial, sans-serif;

@@ -32,16 +32,15 @@
             <label for="objective">Objective:</label>
             <input type="text" id="objective" name="objective">
         </div>
-        <div class="input-container">
-            <label for="project-specs">Project Specs:</label>
-            <div id="project-specs">
-                <div class="project-specs-row">
-                    <input type="text" name="project-spec" class="project-spec">
-                    <button class="remove-project-spec">Remove</button>
-                </div>
+        <div id="inputFields">
+            <label for="input">Project Specs</label>
+            <div class="input-container">
+              <input type="text" class="input" placeholder="Enter something" id="input" name="input">
+              <!-- <button class="remove">Remove</button> -->
             </div>
-            <button id="add-project-spec-row">Add Row</button>
-        </div>
+          </div>
+          <button id="addInput">Add Input Field</button>
+          <!-- <button id="logValues">Log Values</button> -->
          <!-- Input for multiple images -->
          <div class="input-container">
             <label for="image-input">Insert Images:</label>
