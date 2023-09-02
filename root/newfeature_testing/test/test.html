@@ -1,84 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-  body {
-    font-family: Arial, sans-serif;
-  }
-  .input-container {
-    margin-bottom: 10px;
-  }
-  input {
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  button {
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-</style>
-<title>Dynamic Input Fields</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Images</title>
 </head>
 <body>
-  <div id="inputFields">
-    <div class="input-container">
-      <input type="text" class="input" placeholder="Enter something">
-      <button class="remove">Remove</button>
-    </div>
-  </div>
-  <button id="addInput">Add Input Field</button>
-  <button id="logValues">Log Values</button>
-
-  <script>
-    const inputContainer = document.getElementById('inputFields');
-    const addButton = document.getElementById('addInput');
-    const logButton = document.getElementById('logValues');
-    
-    addButton.addEventListener('click', () => {
-        const newInput = document.createElement('div');
-        newInput.className = 'input-container';
-        newInput.innerHTML = `
-            <input type="text" class="input" placeholder="Enter something">
-            <button class="remove">Remove</button>  
-        `;
-        inputContainer.appendChild(newInput);
-    });
-    
-    logButton.addEventListener('click', () => {
-        const inputFields = document.querySelectorAll('.input');
-        let allFieldsFilled = true;
-    
-        inputFields.forEach((input, index) => {
-            if (input.value.trim() === "") {
-                allFieldsFilled = false;
-                console.log(`Field ${index + 1} is not filled.`);
-            }
-        });
-    
-        if (allFieldsFilled) {
-            inputFields.forEach((input, index) => {
-                console.log(`Field ${index + 1}: ${input.value}`);
-            });
-        } else {
-            window.alert("Please fill all input fields.");
-        }
-    });
-    
-    inputContainer.addEventListener('click', (event) => {
-        if (event.target.classList.contains('remove')) {
-            if (inputContainer.childElementCount > 1) {
-                event.target.parentElement.remove();
-            }
-        }
-    });
-    
-  </script>
+    <h1>Upload Images</h1>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="images" multiple accept="image/*">
+        <button type="submit">Upload</button>
+    </form>
 </body>
 </html>

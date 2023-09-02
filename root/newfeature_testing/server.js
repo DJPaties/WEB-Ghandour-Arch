@@ -2,6 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const sqlite3 = require("sqlite3").verbose();
 const sharp = require("sharp"); // Import the sharp library
+const fs = require('fs');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -151,39 +152,51 @@ app.get("/images", (req, res) => {
 
 // saves the details of a specified image 
 // TODO save the images in the folder 
-app.post("/saveDetails", express.json(), (req, res) => {
-    const { id, type_project, location, area, client, objective, proj_specs, selectedImageNamescombined } = req.body;
+// Integrate the additional image saving code here
+app.post('/saveDetails', express.json(), async (req, res) => {
+    const { id, type_project, location, area, client, objective, proj_specs, selectedImageDirectory } = req.body;
 
-    db.all(
-        "SELECT additional_images FROM images WHERE id = ?",
-        [id],
-        (err, add_image) => {
-            if (err) {
-                console.error(err);
-                res.status(500).json({ error: "Error retrieving images from database." });
-            } else {
-                const additionalImagesValue = add_image[0]?.additional_images;
-                console.log(`Value of additional_images: ${additionalImagesValue === null ? "null" : additionalImagesValue}`);
-                
+    // Directory where you want to save the additional images
+    const uploadFolder = 'additionalImages';
 
-                // Now, update the details in the database
-                db.run(
-                    "UPDATE images SET type_project = ?, location = ?, area = ?, client = ?, objective = ?, project_specs = ? WHERE id = ?",
-                    [type_project, location, area, client, objective, proj_specs, id],
-                    (err) => {
-                        if (err) {
-                            console.error(err);
-                            res.status(500).send("Error saving details to the database.");
-                        } else {
-                            res.json(add_image);
-                            console.log(`These are the additional images: ${add_image}`);
-                        }
-                    }
-                );
-            }
+    // Create the directory if it doesn't exist
+    if (!fs.existsSync(uploadFolder)) {
+        fs.mkdirSync(uploadFolder);
+    }
+
+    // Use Sharp to resize and save all images in the specified directory
+    try {
+        const imageFiles = fs.readdirSync(selectedImageDirectory);
+
+        for (const imageFile of imageFiles) {
+            const inputImagePath = `${selectedImageDirectory}/${imageFile}`;
+            const outputImagePath = `${uploadFolder}/${imageFile}`;
+
+            await sharp(inputImagePath)
+                .resize(510, 320)
+                .toFile(outputImagePath);
         }
-    );
+
+        // Now, update the details in the database
+        db.run(
+            'UPDATE images SET type_project = ?, location = ?, area = ?, client = ?, objective = ?, project_specs = ? WHERE id = ?',
+            [type_project, location, area, client, objective, proj_specs, id],
+            (err) => {
+                if (err) {
+                    console.error(err);
+                    res.status(500).send('Error saving details to the database.');
+                } else {
+                    res.json({ success: true });
+                }
+            }
+        );
+    } catch (err) {
+        console.error(`Error resizing and saving images: ${err}`);
+        res.status(500).send('Error resizing and saving images.');
+    }
 });
+
+
 
 
 
