@@ -5,10 +5,54 @@ document.addEventListener("DOMContentLoaded", async () => {
   const collect_data_btn = document.getElementById("submit-Details");
 
   const inputContainer = document.getElementById('inputFields');
-  const addButton = document.getElementById('addInput');
-
+  const addButton = document.getElementById(  'addInput');
+  const form_image = document.getElementById('image-form');
+  const image_submit_button = document.getElementById('submit-images'); 
+  const images_uploaded = document.getElementById('input-img-form');
   let allFieldsFilled ;
   
+  //images form button click
+  image_submit_button.addEventListener('click', () => {
+    // Check if the user inputs a single image or more
+    const files = images_uploaded.files; // Get the selected files
+    if (files.length === 0) {
+      alert('Please select one or more images to upload.');
+      return;
+    }else{
+        const fileInput = document.getElementById('input-img-form');
+        const fileList = fileInput.files;
+  
+        // Create a FormData object to send files and additional data
+        const formData = new FormData();
+  
+        // Append each file to the FormData object
+        for (const file of fileList) {
+            formData.append('images', file);
+        }
+  
+        // Append the 'id' variable to the FormData object
+        const id = imageId; // Replace with your actual variable value
+        formData.append('id', id);
+  
+        // Use Fetch API to send a POST request to the server
+        fetch('/upload', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data); // Log the response from the server
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    
+    }
+  });
+
+
+
+
   //Populate the inputs with the current information from the database
   try {
     const response = await fetch(`/image/${imageId}`);
@@ -109,27 +153,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           const inputFields = document.querySelectorAll('.input');
           const imageInput = document.getElementById("image-input");
     
-          const selectedImageNames = [];
-          const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-          for (let i = 0; i < imageInput.files.length; i++) {
-              const file = imageInput.files[i];
-              const randomSuffix = generateRandomSuffix(6); // You can adjust the length of the suffix as needed
-              const originalName = file.name;
-              const extension = originalName.substring(originalName.lastIndexOf('.'));
-              const newName = `${originalName.substring(0, originalName.lastIndexOf('.'))}_${randomSuffix}${extension}`;
-              selectedImageNames.push(newName);
-          }
 
-          function generateRandomSuffix(length) {
-              let result = '';
-              for (let i = 0; i < length; i++) {
-                  result += characters.charAt(Math.floor(Math.random() * characters.length));
-              }
-              return result;
-          }
-          
-          console.log("Selected image names:", selectedImageNames);
 
       
           inputFields.forEach((input, index) => {
@@ -149,14 +174,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             inputFields.forEach((input, index) => {
                 proj_specs += input.value + "/";
             });
-            let selectedImageNamescombined = "";
-            selectedImageNames.forEach((imageName, index) => {
-            selectedImageNamescombined += imageName;
-            if (index < selectedImageNames.length - 1) {
-                selectedImageNamescombined += "/";
-            }
-        });
-            console.log(selectedImageNamescombined)
+            // let selectedImageNamescombined = "";
+            // selectedImageNames.forEach((imageName, index) => {
+            // selectedImageNamescombined += imageName;
+            // if (index < selectedImageNames.length - 1) {
+            //     selectedImageNamescombined += "/";
+            // }
+        // });
+            // console.log(selectedImageNamescombined)
             const data = {
                 id: imageId,
                 type_project,
@@ -165,7 +190,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 client,
                 objective,
                 proj_specs,
-                selectedImageNamescombined,
+                // selectedImageNamescombined,
             };
             // console.log(`DATA is;${data}`)
             try {

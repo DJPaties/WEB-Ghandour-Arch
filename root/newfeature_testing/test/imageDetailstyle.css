@@ -1,0 +1,21 @@
+/* Style the container for the image slider */
+.imageslider {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 20px;
+}
+
+/* Style individual div elements with id "imgDiv" */
+.imageslider div#imgDiv {
+  margin-right: 10px; /* Add spacing between divs */
+  padding: 10px; /* Add padding inside divs */
+  max-width: 500px; /* Resize the divs to a specific width */
+  /* You can adjust the max-width value as needed */
+}
+
+/* Style images inside the div elements */
+.imageslider div#imgDiv img {
+  max-width: 100%; /* Resize the images to fit inside the divs */
+  height: auto;
+}

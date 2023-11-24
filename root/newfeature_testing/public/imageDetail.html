@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="imageDetailstyle.css"> <!-- Include your CSS stylesheet here -->
 </head>
 <body>
+    
     <div class="image-detail-container">
         <div class="image-detail">
             <img id="image-detail" src="/uploads/resized-" alt="">
@@ -16,6 +17,7 @@
        <!-- Form for image submission -->
 
         <!-- New input fields -->
+
         <div class="input-container">
             <label for="type-project">Type/Project:</label>
             <input type="text" id="type-project" name="type-project">
@@ -46,20 +48,24 @@
           <button id="addInput">Add Input Field</button>
           <!-- <button id="logValues">Log Values</button> -->
         
-        
+        <div class="image-details-submit">
+            <button id="submit-Details">Save Details</button>
+        </div>
         <!-- Input for multiple images -->
         <div class="input-container">
             <label for="image-input">Insert Images:</label>
-            <input type="file" id="image-input" name="image" accept="image/*" multiple>
+            <input type="file" name="images" accept="image/*" id="input-img-form" multiple required>
+            <button type="submit" id="submit-images" >Upload Image</button>
+ 
         </div>
         <div class="image-slider">
             <!-- Images inserted will be displayed here -->
         </div>
         
         <!-- Photo at the bottom -->
-        <div class="image-details-submit">
-            <button id="submit-Details">Save Details</button>
-        </div>
+        <!-- <div class="image-submit">
+            <button type="submit" id="submit-images">Save Details</button>
+        </div> -->
 
     </div>
 
