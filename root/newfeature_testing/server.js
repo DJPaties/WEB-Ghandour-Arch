@@ -3,6 +3,7 @@ const multer = require("multer");
 const sqlite3 = require("sqlite3").verbose();
 const fs = require('fs');
 const path = require('path');
+const { Console } = require("console");
 
 
 const app = express();
@@ -57,14 +58,25 @@ app.get("/image/:id", (req, res) => {
 
 app.get("/imageDetail", (req, res) => {
     const imageId = req.query.id;
-
+    let filteredArray;
     db.get("SELECT * FROM images WHERE id = ?", [imageId], (err, image) => {
         if (err) {
             console.error(err);
             res.status(500).send("Error retrieving image details from database.");
         } else {
             if (image) {
-                res.render("imageDetail", { image }); // Render the EJS view
+                // console.log(image.additional_images)
+                let add_img = image.additional_images
+                if(add_img !== null){
+                    const resultArray = add_img.split('/');
+                    console.log(resultArray)
+                    console.log(resultArray.length)
+                    filteredArray = resultArray.filter(str => str !== '');
+                    console.log("Filtered Array:")
+                    console.log(filteredArray)
+                    console.log(filteredArray.length)
+                }
+                res.render("imageDetail", { image,filteredArray }); // Render the EJS view
             } else {
                 res.status(404).send("Image not found.");
             }
@@ -93,7 +105,7 @@ const storage = multer.diskStorage({
     
     destination: (req, file, cb) => {
         
-      cb(null, 'extraImages/');
+      cb(null, 'public/extraImages/');
     },
     filename: (req, file, cb) => {
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -113,6 +125,8 @@ const storage = multer.diskStorage({
 // Serve static files
 app.use(express.static("public"));
 app.use("/uploads", express.static("uploads"));
+app.use('/extraImages', express.static('extraImages'));
+
 
 // Initialize database and create table
 db.serialize(() => {

@@ -6,12 +6,21 @@ body, h1, p, ul, li {
 .input-container {
   margin-bottom: 10px;
 }
+label{
+  margin-top: 50px;
+  margin-bottom: 30px;
+  font-variant: small-caps;
+  font-weight: bolder;
+}
 input {
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 button {
+  font-size: 20px;
+  height: 40px;
+  width: 180px;
   padding: 5px 10px;
   background-color: #007bff;
   color: white;
@@ -21,15 +30,27 @@ button {
 }
 /* Set some global styles */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
   text-align: center;
+  font-family: Arial, sans-serif;
+  background-color:gainsboro;
+  
   font-size: xx-large;
 }
 
+/* Your existing styles */
+
+
+
+.remove{
+  margin-top: 20px;
+  position: absolute;
+  
+  transform: translate(100%);
+}
 .image-detail-container {
-  max-width: auto;
-  margin: 0 auto;
+  text-align: center;
+  max-width: 1100px;
+  margin-left: 0 ;
   padding: 20px;
   background-color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -38,9 +59,14 @@ body {
 }
 
 .image-detail {
+  width: 100%;
   text-align: center;
+  margin: 0;
   margin-bottom: 20px;
-  padding: 20px;
+  /* padding: 20px; */
+  background-color: aqua;
+  border: 10px solid black;
+  
   
 }
 #image-detail{
@@ -52,22 +78,28 @@ body {
 }
 
 .input-container {
-  margin-bottom: 10px;
+  margin-bottom: 50px;
 }
 
 .input-container label {
-  font-size: 16px;
+  font-size: 32px;
   display: block;
   margin-bottom: 5px;
 }
 
 .input-container input {
+  /* margin-left: 5%; */
+  font-size: 25px;
   width: 100%;
   padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+  border: none;
+  border-bottom: 8px solid #ccc; /* Default bottom border color */
+  outline: none;
+  transition: border-bottom-color 0.3s ease-out;
 }
-
+.input-container input:focus {
+  border-bottom-color: #000; /* Change bottom border color on focus to black */
+}
 #project-specs {
   margin-bottom: 10px;
 }
@@ -85,16 +117,14 @@ body {
   border-radius: 3px;
 }
 
-.remove-project-spec {
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  margin-left: 5px;
+#project-name{
+  display: block;
+  font-family: 'Arial', sans-serif;
+  font-size:4cm;
+  color: #333; /* Text color */
+  margin-bottom: 100px; /* Add some space below the label */  
+  margin-top: 40px;
 }
-
 #add-project-spec-row {
   background-color: #4caf50;
   color: white;
@@ -151,9 +181,9 @@ body {
 }
 
 .image-slider img {
-  max-width: 150px;
-  max-height: 100px;
+  max-width: 350px;
+  max-height: 300px;
   margin-right: 10px;
-  border: 1px solid #ccc;
+  border: 5px solid grey;
   border-radius: 3px;
 }

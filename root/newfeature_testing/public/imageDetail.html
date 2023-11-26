@@ -12,39 +12,48 @@
         <div class="image-detail">
             <img id="image-detail" src="/uploads/resized-" alt="">
             <label id="image-description"></label>
+            <label id="project-name" ></label>
+
+            
         </div>
-        
+        <div class="image-slider">
+            <img src="../additionalImages/1695668279773-IMG_2862.jpg" alt="Image 1">
+            <img src="../additionalImages/1695668279773-IMG_2862.jpg" alt="Image 2">
+            <img src="../additionalImages/1695668279773-IMG_2862.jpg" alt="Image 3">
+            <!-- Add more images dynamically based on your database -->
+        </div>
        <!-- Form for image submission -->
 
         <!-- New input fields -->
 
         <div class="input-container">
-            <label for="type-project">Type/Project:</label>
-            <input type="text" id="type-project" name="type-project">
+            <label for="type-project" class="input-label">Type/Project</label>
+            <input type="text" id="type-project" name="type-project" class="input-field">
         </div>
         <div class="input-container">
-            <label for="location">Location:</label>
-            <input type="text" id="location" name="location">
+            <label for="location" class="input-label">Location</label>
+            <input type="text" id="location" name="location" class="input-field">
         </div>
         <div class="input-container">
-            <label for="area">Area:</label>
-            <input type="text" id="area" name="area">
+            <label for="area" class="input-label">Area</label>
+            <input type="text" id="area" name="area" class="input-field">
         </div>
         <div class="input-container">
-            <label for="client">Client:</label>
-            <input type="text" id="client" name="client">
+            <label for="client" class="input-label">Client</label>
+            <input type="text" id="client" name="client" class="input-field">
         </div>
         <div class="input-container">
-            <label for="objective">Objective:</label>
-            <input type="text" id="objective" name="objective">
+            <label for="objective" class="input-label">Objective</label>
+            <input type="text" id="objective" name="objective" class="input-field">
         </div>
         <div id="inputFields">
-            <label for="input">Project Specs</label>
+            <label for="input" class="input-label">Project Specs</label>
             <div class="input-container">
-              <input type="text" class="input" placeholder="Enter something" id="input" name="input">
+              <input type="text" class="input" placeholder="Enter something" id="input" name="input" class="input-field">
               <button class="remove">Remove</button>
             </div>
-          </div>
+            </div>
+          
           <button id="addInput">Add Input Field</button>
           <!-- <button id="logValues">Log Values</button> -->
         
@@ -53,7 +62,7 @@
         </div>
         <!-- Input for multiple images -->
         <div class="input-container">
-            <label for="image-input">Insert Images:</label>
+            <label for="image-input">Insert Images</label>
             <input type="file" name="images" accept="image/*" id="input-img-form" multiple required>
             <button type="submit" id="submit-images" >Upload Image</button>
  
@@ -68,6 +77,11 @@
         </div> -->
 
     </div>
+    <div class="image-slider">
+        
+            <img src="/extraImages" alt="Image">
+            
+        </div>
 
     <script src="imageDetail.js"></script>
 </body>

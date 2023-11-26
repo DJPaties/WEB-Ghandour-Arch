@@ -9,28 +9,29 @@
         <div class="image-detail">
             <img id="image-detail" src="/uploads/resized-<%= image.filename %>" alt="<%= image.description %>">
             <label id="image-description"></label>
+            <label id="project-name" ><%= image.description %></label>
+            
         </div>
-        <label ><%= image.description %></label>
         
         <!-- New input fields -->
         <div class="input-container">
-            <label for="type-project">Type/Project:</label>
+            <label for="type-project">Type/Project</label>
             <input type="text" id="type-project" name="type-project">
         </div>
         <div class="input-container">
-            <label for="location">Location:</label>
+            <label for="location">Location</label>
             <input type="text" id="location" name="location">
         </div>
         <div class="input-container">
-            <label for="area">Area:</label>
+            <label for="area">Area</label>
             <input type="text" id="area" name="area">
         </div>
         <div class="input-container">
-            <label for="client">Client:</label>
+            <label for="client">Client</label>
             <input type="text" id="client" name="client">
         </div>
         <div class="input-container">
-            <label for="objective">Objective:</label>
+            <label for="objective">Objective</label>
             <input type="text" id="objective" name="objective">
         </div>
         <div id="inputFields">
@@ -48,7 +49,7 @@
         </div>
         
          <div class="input-container">
-            <label for="image-input">Insert Images:</label>
+            <label for="image-input">Insert Images</label>
             <!-- <input type="file"  name="image" accept="image/*" multiple> -->
             <input type="file" name="images" accept="image/*" id="input-img-form" multiple required>
             <button type="submit" id="submit-images" >Upload Image</button>
@@ -63,7 +64,19 @@
             <button type="submit" id="submit-images">Save Details</button>
         </div> -->
     </div>
-
+    <div class="image-slider">
+        <% if (filteredArray && filteredArray.length > 0) { %>
+            <% filteredArray.forEach(imageName => { %>
+                <div class="multiple-images">
+                    <img src="/extraImages/<%= imageName %>" alt="Image" style="width: 400px; height: 200px; object-fit: cover;">
+                    <button id="deleteExtra">Delete</button>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>No images available.</p>
+        <% } %>
+    </div>
+    
     <script src="imageDetail.js"></script>
 </body>
 </html>
