@@ -7,7 +7,7 @@
 <body>
     <div class="image-detail-container">
         <div class="image-detail">
-            <img id="image-detail" src="/uploads/resized-<%= image.filename %>" alt="<%= image.description %>">
+            <img id="image-detail" src="/uploads/<%= image.filename %>" alt="<%= image.description %>">
             <label id="image-description"></label>
             <label id="project-name" ><%= image.description %></label>
             
@@ -69,7 +69,7 @@
             <% filteredArray.forEach(imageName => { %>
                 <div class="multiple-images">
                     <img src="/extraImages/<%= imageName %>" alt="Image" style="width: 400px; height: 200px; object-fit: cover;">
-                    <button id="deleteExtra">Delete</button>
+                    <button class="removeimg">Delete</button>
                 </div>
             <% }); %>
         <% } else { %>

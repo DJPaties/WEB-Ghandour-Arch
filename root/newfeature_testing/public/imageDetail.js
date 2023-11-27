@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // console.log(imageId)
   const imageDescriptionElement = document.getElementById("image-description");
   const collect_data_btn = document.getElementById("submit-Details");
+  const deleteButtons = document.querySelectorAll('.removeimg');
 
   const inputContainer = document.getElementById('inputFields');
   const addButton = document.getElementById(  'addInput');
@@ -42,11 +43,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         .then(response => response.text())
         .then(data => {
             console.log(data); // Log the response from the server
+            window.location.reload();
         })
         .catch(error => {
             console.error('Error:', error);
         });
-    
+        
+
     }
   });
 
@@ -61,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const imageDetails = await response.json();
-  //  document.getElementById('image-detail').src = `/uploads/resized-${imageId.filename}`
+   document.getElementById('image-detail').src = `/uploads/${imageDetails.filename}`
 
     // Populate input fields
     document.getElementById("type-project").value = imageDetails.type_project;
@@ -220,6 +223,38 @@ document.addEventListener("DOMContentLoaded", async () => {
       imageDescriptionElement.textContent = "Failed to load image details.";
   }
 
-
+    deleteButtons.forEach(deleteButton => {
+        deleteButton.addEventListener('click', async (event) => {
+            const nearestImg = event.target.closest('.multiple-images').querySelector('img');
+            const imageUrl = nearestImg.src;
+            console.log('Image URL:', imageUrl);
+            const imagesplitArray = imageUrl.split("/")
+            console.log(imagesplitArray, imagesplitArray.length)
+            let extraImages = imagesplitArray[imagesplitArray.length-2]
+            let extraimagename = imagesplitArray[imagesplitArray.length-1]
+            console.log(extraImages,extraimagename)
+            const data = {
+              id: imageId,
+              extraImages: extraImages,
+              extraimagename: extraimagename
+            }
+           try {
+            const response = await fetch('/deleteextraimg', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+          });
+          if (!response.ok) {
+            throw new Error('Failed to delete img on the server.');
+        }
+        window.location.reload();
+           } catch (error) {
+            console.error(error);
+           }
+            // Now you can use imageUrl as needed, for example, send it to the server or perform other actions.
+        });
+    });
 
 });

@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 formData.append("image", file);
                 formData.append("description", description);
 
-                await fetch("/upload", {
+                await fetch("/uploadNewVilla", {
                     method: "POST",
                     body: formData,
                 });
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const imageElement = document.createElement("div");
                 imageElement.classList.add("DescriptivePhoto");
                 imageElement.innerHTML = `
-                <a href="/imageDetail?id=${image.id}"><img src="/uploads/resized-${image.filename}" alt="${image.id}" class="static_image"></a>
+                <a href="/imageDetail?id=${image.id}"><img src="/uploads/${image.filename}" alt="${image.id}" class="static_image"></a>
                     <p id="imgDesc">${image.description}</p>
                     <button class="deletePhoto"> Delete </button>
                 `;

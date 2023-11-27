@@ -10,8 +10,12 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.static("public"));
-app.use("/uploads", express.static("uploads"));
+// app.use("/uploads", express.static("uploads"));
 app.set("view engine", "ejs");
+// Serve static files
+app.use(express.static("public"));
+app.use("/uploads", express.static("uploads"));
+app.use('/extraImages', express.static('extraImages'));
 
 const db = new sqlite3.Database("database.db");
 
@@ -37,6 +41,57 @@ app.get('/test/clear', (req, res) => {
     });
 });
 
+
+
+app.post("/deleteextraimg", express.json(), (req, res) => {
+    const idImage = req.body.id;
+    const folder = req.body.extraImages;
+    const imgname = req.body.extraimagename;
+
+    console.log(folder, imgname);
+
+    db.get("SELECT additional_images FROM images WHERE id = ?", [idImage], (err, image) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: "Error retrieving image details from database." });
+        } else {
+            console.log(image);
+
+            // Assuming additional_images is the property containing the string
+            const splitimage = image.additional_images.split("/");
+            const index = splitimage.indexOf(imgname);
+
+            if (index !== -1) {
+                splitimage.splice(index, 1);
+
+                fs.unlink("./extraImages/" + imgname, (err) => {
+                    if (err) {
+                        console.error(`Error deleting image: ${err}`);
+                    } else {
+                        console.log('Image deleted successfully.');
+                    }
+                });
+
+                console.log("Removed item from list. New array:");
+                const newimages = splitimage.join("/");
+                
+                db.run("UPDATE images SET additional_images = ? WHERE id = ?", [newimages, idImage], (err) => {
+                    if (err) {
+                        console.error(err);
+                        res.status(500).send('Error updating additional images in the database.');
+                    } else {
+                        res.send('Updated images values');
+                    }
+                });
+            } else {
+                console.log(`${imgname} is not in the array.`);
+            }
+        }
+    });
+
+    // Don't send a response here; it's already being sent inside the callback above
+    // res.sendStatus(200);
+});
 
 
 
@@ -90,14 +145,52 @@ app.get("/imageDetail", (req, res) => {
 app.delete("/delete/:id", (req, res) => {
     const imageId = req.params.id;
     console.log("This is the server that has the ID image:", imageId)
-    db.run("DELETE FROM images WHERE id = ?", [imageId], (err) => {
+    db.get("SELECT * FROM images WHERE id = ?", [imageId], (err, image) => {
         if (err) {
             console.error(err);
-            res.status(500).send("Error deleting image from database.");
+            res.status(500).send("Error retrieving image details from database.");
         } else {
-            res.sendStatus(200);
-        }
-    });
+            if (typeof myVariable === 'undefined' || myVariable === null) {
+            fs.unlink("./uploads/" + image.filename, (err) => {
+                if (err) {
+                    console.error(`Error deleting image: ${err}`);
+                } else {
+                    console.log('Image deleted successfully.');
+                }
+            });}
+                let add_img = image.additional_images
+                console.log(add_img)
+                if(add_img !== null){
+                    const resultArray = add_img.split('/');
+                    console.log(resultArray)
+                    // console.log(resultArray.length)
+                    filteredArray = resultArray.filter(str => str !== '');
+                    // console.log("Filtered Array:")
+                    // console.log(filteredArray)
+                    // console.log(filteredArray.length)
+                    filteredArray.forEach(element => {
+                        fs.unlink("./extraImages/" + element, (err) => {
+                            if (err) {
+                                console.error(`Error deleting image: ${err}`);
+                            } else {
+                                console.log('Image deleted successfully.');
+                            }
+                        });
+                    });
+                    
+                }
+                db.run("DELETE FROM images WHERE id = ?", [imageId], (err) => {
+                    if (err) {
+                        console.error(err);
+                        res.status(500).send("Error deleting image from database.");
+                    } else {
+                        res.sendStatus(200);
+                    }
+                });
+    }});
+
+    
+    
 });
 
 // Configure multer for image uploads
@@ -105,7 +198,7 @@ const storage = multer.diskStorage({
     
     destination: (req, file, cb) => {
         
-      cb(null, 'public/extraImages/');
+      cb(null, './extraImages');
     },
     filename: (req, file, cb) => {
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -122,10 +215,7 @@ const storage = multer.diskStorage({
 
 
 
-// Serve static files
-app.use(express.static("public"));
-app.use("/uploads", express.static("uploads"));
-app.use('/extraImages', express.static('extraImages'));
+
 
 
 // Initialize database and create table
@@ -224,22 +314,42 @@ app.get("/images", (req, res) => {
 // image saving function
 
 
-const imgstorage = multer.diskStorage({
+// Specify the storage destination and filename
+const storageNew = multer.diskStorage({
     destination: (req, file, cb) => {
-        const uploadFolder = 'extraImages';
-        if (!fs.existsSync(uploadFolder)) {
-            fs.mkdirSync(uploadFolder);
-        }
-        cb(null, uploadFolder);
+        cb(null, 'uploads'); // Specify the destination folder here
     },
     filename: (req, file, cb) => {
-        const ext = path.extname(file.originalname);
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueSuffix + ext);
+        // You can customize the filename as needed
+        const uniqueSuffix =  Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const ext = file.originalname.split('.').pop();
+        cb(null, file.fieldname + '-' + uniqueSuffix + '.' + ext);
     },
 });
 
-const imgupload = multer({ storage: imgstorage });
+// Create the multer instance with the specified storage
+const uploadNewVilla = multer({ storage: storageNew });
+
+// Use the multer middleware in your route
+app.post("/uploadNewVilla", uploadNewVilla.single("image"), async (req, res) => {
+    const description = req.body.description;
+    const filename = req.file.filename;
+
+    try {
+        // Save the filename and description in the database
+        db.run("INSERT INTO images (filename, description) VALUES (?, ?)", [filename, description], (err) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send("Error saving image details to the database.");
+            } else {
+                res.json({ success: true });
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error processing the request.");
+    }
+});
 
 app.use('/saveDetails', express.static('extraImages'));
 
