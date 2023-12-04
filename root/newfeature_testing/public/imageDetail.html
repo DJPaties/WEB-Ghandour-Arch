@@ -83,6 +83,15 @@
             
         </div>
 
+        <div id="video-gallery">
+            <form id="video-form" action="/uploadVideos" method="post" enctype="multipart/form-data">
+                <!-- Input for video files -->
+                <label for="videos">Select multiple videos:</label>
+                <input type="file" name="videos" id="videos" multiple accept="video/*">
+                    <!-- Submit button -->
+                <button type="submit">Upload Videos</button>
+            </form>
+        </div>
     <script src="imageDetail.js"></script>
 </body>
 </html>

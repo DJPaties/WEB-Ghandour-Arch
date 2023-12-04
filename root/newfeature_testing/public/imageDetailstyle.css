@@ -3,7 +3,9 @@ body, h1, p, ul, li {
   margin: 0;
   padding: 0;
 }
-.input-container {
+.input-container, .video-input-container{
+  
+  margin-top: 10px;  
   margin-bottom: 10px;
 }
 label{
@@ -81,13 +83,13 @@ body {
   margin-bottom: 50px;
 }
 
-.input-container label {
+.input-container label, .video-input-container label {
   font-size: 32px;
   display: block;
   margin-bottom: 5px;
 }
 
-.input-container input {
+.input-container input, .video-input-container input {
   /* margin-left: 5%; */
   font-size: 25px;
   width: 100%;
@@ -97,7 +99,7 @@ body {
   outline: none;
   transition: border-bottom-color 0.3s ease-out;
 }
-.input-container input:focus {
+.input-container input:focus , .video-input-container input:focus{
   border-bottom-color: #000; /* Change bottom border color on focus to black */
 }
 #project-specs {
@@ -143,7 +145,7 @@ body {
   cursor: pointer;
 }
 
-#submit-images {
+#submit-images, #submit-videos {
   background-color: #4caf50;
   color: white;
   border: none;
@@ -174,13 +176,13 @@ body {
 }
 
 /* Styling for the image slider */
-.image-slider {
+.image-slider,.video-slider  {
   display: flex;
   overflow-x: scroll;
   margin-top: 10px;
 }
 
-.image-slider img {
+.image-slider img,.image-slider video {
   max-width: 350px;
   max-height: 300px;
   margin-right: 10px;

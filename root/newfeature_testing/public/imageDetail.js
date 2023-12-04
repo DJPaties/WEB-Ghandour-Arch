@@ -4,14 +4,64 @@ document.addEventListener("DOMContentLoaded", async () => {
   const imageDescriptionElement = document.getElementById("image-description");
   const collect_data_btn = document.getElementById("submit-Details");
   const deleteButtons = document.querySelectorAll('.removeimg');
-
+  const deleteVideoButtons = document.querySelectorAll('.removevideo');
   const inputContainer = document.getElementById('inputFields');
   const addButton = document.getElementById(  'addInput');
   const form_image = document.getElementById('image-form');
   const image_submit_button = document.getElementById('submit-images'); 
+  const video_submit_button = document.getElementById('submit-videos'); 
   const images_uploaded = document.getElementById('input-img-form');
+  const videos_uploaded = document.getElementById('input-videos-form');
   let allFieldsFilled ;
   
+
+//videos form button click
+video_submit_button.addEventListener('click', (event) => {
+  // event.preventDefault(); 
+  // Check if the user inputs a single image or more
+  const files = videos_uploaded.files; // Get the selected files
+  if (files.length === 0) {
+    alert('Please select one or more images to upload.');
+    return;
+  }else{
+      const fileInput = document.getElementById('input-videos-form');
+      const fileList = fileInput.files;
+
+      // Create a FormData object to send files and additional data
+      const formData = new FormData();
+
+      // Append each file to the FormData object
+      for (const file of fileList) {
+          formData.append('videos', file);
+          console.log(file)
+      }
+
+      // Append the 'id' variable to the FormData object
+      const id = imageId; // Replace with your actual variable value
+      formData.append('id', id);
+
+      // Use Fetch API to send a POST request to the server
+      fetch('/uploadVideos', {
+          method: 'POST',
+          body: formData,
+      })
+      .then(response => response.text())
+      .then(data => {
+          console.log(data); // Log the response from the server
+          window.location.reload();
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+      
+
+  }
+});
+
+
+
+
+
   //images form button click
   image_submit_button.addEventListener('click', () => {
     // Check if the user inputs a single image or more
@@ -257,4 +307,41 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     });
 
+
+
+
+    //Delete Videos
+    deleteVideoButtons.forEach(deleteButton => {
+      deleteButton.addEventListener('click', async (event) => {
+          const nearestVideo = event.target.closest('.multiple-videos').querySelector('source');
+          const videoURL = nearestVideo.src;
+          console.log('Video URL:', videoURL);
+          const videoplitArray = videoURL.split("/")
+          console.log(videoplitArray, videoplitArray.length)
+          let extraVideos = videoplitArray[videoplitArray.length-2]
+          let extravideoname = videoplitArray[videoplitArray.length-1]
+          console.log(extraVideos,extravideoname)
+          const data = {
+            id: imageId,
+            extraVideos: extraVideos,
+            extravideoname: extravideoname
+          }
+         try {
+          const response = await fetch('/deleteextravideo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        if (!response.ok) {
+          throw new Error('Failed to delete Video on the server.');
+      }
+      window.location.reload();
+         } catch (error) {
+          console.error(error);
+         }
+          // Now you can use imageUrl as needed, for example, send it to the server or perform other actions.
+      });
+  });
 });

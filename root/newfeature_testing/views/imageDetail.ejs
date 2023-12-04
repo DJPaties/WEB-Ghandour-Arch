@@ -63,19 +63,48 @@
         <!-- <div class="image-submit">
             <button type="submit" id="submit-images">Save Details</button>
         </div> -->
+        <div class="image-slider">
+            <% if (filteredArray && filteredArray.length > 0) { %>
+                <% filteredArray.forEach(imageName => { %>
+                    <div class="multiple-images">
+                        <img src="/extraImages/<%= imageName %>" alt="Image" style="width: 400px; height: 200px; object-fit: cover;">
+                        <button class="removeimg">Delete</button>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>No images available.</p>
+            <% } %>
+    
+    
+            
+        </div>
+        <div class="video-input-container">
+            <label for="input-video-form">Insert Videos</label>
+            <input type="file" name="videos" accept="video/*" id="input-videos-form" multiple required>
+            <button type="submit" id="submit-videos">Upload Videos</button>
+        </div>
+    
+
+        <div class="video-slider">
+            <% if (filteredVideoArray && filteredVideoArray.length > 0) { %>
+                <% filteredVideoArray.forEach(videoName => { %>
+                    <div class="multiple-videos">
+                        <video width="400" height="200" controls>
+                            <source src="../extraVideos/<%= videoName %>" type="video/mp4">
+                            <source src="/extraVideos/videos-1701295825260-889397964.mp4" type="video/mp4">
+
+                            Your browser does not support the video tag.
+                        </video>
+                        <button class="removevideo">Delete</button>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>No Videos available.</p>
+            <% } %>
+        </div>
+        
     </div>
-    <div class="image-slider">
-        <% if (filteredArray && filteredArray.length > 0) { %>
-            <% filteredArray.forEach(imageName => { %>
-                <div class="multiple-images">
-                    <img src="/extraImages/<%= imageName %>" alt="Image" style="width: 400px; height: 200px; object-fit: cover;">
-                    <button class="removeimg">Delete</button>
-                </div>
-            <% }); %>
-        <% } else { %>
-            <p>No images available.</p>
-        <% } %>
-    </div>
+
     
     <script src="imageDetail.js"></script>
 </body>
