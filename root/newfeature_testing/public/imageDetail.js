@@ -12,8 +12,40 @@ document.addEventListener("DOMContentLoaded", async () => {
   const video_submit_button = document.getElementById('submit-videos'); 
   const images_uploaded = document.getElementById('input-img-form');
   const videos_uploaded = document.getElementById('input-videos-form');
+  const previousVilla = document.getElementById('previousVillaBtn');
+  const nextVilla = document.getElementById('nextVillaBtn');
+
   let allFieldsFilled ;
+  let ArrayImageIDs = []
   
+//previousVilla clicked
+ previousVilla.addEventListener('click', async (event)=>{
+  console.log(ArrayImageIDs);
+    const targetIndex = ArrayImageIDs.indexOf(parseInt(imageId, 10));
+    if(targetIndex !== -1 ){
+      const beforeIndex = targetIndex -1 
+      window.location.href = `/imageDetail?id=${ArrayImageIDs[beforeIndex]}`
+      
+    }else{
+      alert("Can't Go back. Check Logs.")
+    }
+
+});
+//next Villa Clicked
+nextVilla.addEventListener('click', async (event)=>{
+  console.log(ArrayImageIDs);
+    const targetIndex = ArrayImageIDs.indexOf(parseInt(imageId, 10));
+    if(targetIndex !== -1){
+      const nextIndex = targetIndex +1 
+      window.location.href = `/imageDetail?id=${ArrayImageIDs[nextIndex]}`
+      
+    }else{
+      alert("Can't Go back. Check Logs.")
+    }
+
+});
+
+
 
 //videos form button click
 video_submit_button.addEventListener('click', (event) => {
@@ -122,7 +154,7 @@ video_submit_button.addEventListener('click', (event) => {
     document.getElementById("area").value = imageDetails.area;
     document.getElementById("client").value = imageDetails.client;
     document.getElementById("objective").value = imageDetails.objective;
-
+    ArrayImageIDs = imageDetails.allImageIds;
 
     let ipnut_specs = imageDetails.project_specs
     if(ipnut_specs === null){}
@@ -344,4 +376,17 @@ video_submit_button.addEventListener('click', (event) => {
           // Now you can use imageUrl as needed, for example, send it to the server or perform other actions.
       });
   });
+
+  let chcekindexofZero = ArrayImageIDs.indexOf(parseInt(imageId, 10));
+// or
+// let chcekindexofZero = ArrayImageIDs.indexOf(Number(imageId));
+console.log(`THE INDEX IS ${chcekindexofZero}`);
+console.log(imageId);
+
+if (chcekindexofZero === 0) {
+    previousVilla.style.display = 'none'; 
+}else if(chcekindexofZero === ArrayImageIDs.length -1){
+  nextVilla.style.display = 'none';
+}
+
 });

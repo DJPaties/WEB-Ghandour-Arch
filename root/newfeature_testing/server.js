@@ -23,7 +23,21 @@ const db = new sqlite3.Database("database.db");
 let uploaded_images_name = ""
 let uploaded_videos_name = ""
 
-
+// getting the previous Villa
+    // app.get("/previousVilla", express.json(), (req, res) => {
+    //     let ArrayimageIds = []
+    //     id = req.body.id;
+    //     db.all("Select id FROM images",(updateErr,ids)=>{
+    //         if (updateErr) {
+    //             console.error(updateErr);
+    //             res.status(500).send("Error Retreiving  image ids /previousVilla.");
+    //         } else {
+    //             const ArrayimageIds = ids.map(id=> ids.id)
+    //             console.log(ids)
+    //             res.sendStatus(200);
+    //         }
+    //     });
+    // })
 
 //upload videos
 app.use("/extraVideos",express.static("extraVideos"));
@@ -232,9 +246,21 @@ app.get("/image/:id", (req, res) => {
             console.error(err);
             res.status(500).json({ error: "Error retrieving image details from database." });
         } else {
-            res.json(image);
+            db.all("SELECT id FROM images", (updateErr, ids) => {
+                if (updateErr) {
+                    console.error(updateErr);
+                    res.status(500).send("Error retrieving image IDs.");
+                } else {
+                    const ArrayimageIds = ids.map(id => id.id);
+                    image.allImageIds = ArrayimageIds; // Append the array to the image object
+                    res.json(image);
+                }
+            });
+            
         }
     });
+
+
 });
 
 
@@ -449,8 +475,25 @@ app.get("/images", (req, res) => {
 });
 
 
-// image saving function
+// Info saving function
 
+app.post("/saveDetails", express.json(), (req, res) => {
+    id = req.body.id;
+    type_project= req.body.type_project;
+    location = req.body.location;
+    area= req.body.area;
+    client = req.body.client;
+    objective = req.body.objective;
+    proj_specs = req.body.proj_specs;
+    db.run("UPDATE images set type_project=?, location=?,area=?,client=?, objective=?, project_specs=? where id=?",[type_project,location,area,client,objective,proj_specs,id],(updateErr)=>{
+        if (updateErr) {
+            console.error(updateErr);
+            res.status(500).send("Error updating image details.");
+        } else {
+            res.sendStatus(200);
+        }
+    });
+})
 
 // Specify the storage destination and filename
 const storageNew = multer.diskStorage({

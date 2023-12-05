@@ -174,7 +174,18 @@ body {
   border-radius: 3px;
   cursor: pointer;
 }
+/* Previous and next div */
+#next-villa{
+  display: flexbox;
+  height: 100px;
+  width: auto;
+  
 
+}
+#previousVillaBtn,#nextVillaBtn{
+  margin: 30px;
+  margin-top: 100px;
+}
 /* Styling for the image slider */
 .image-slider,.video-slider  {
   display: flex;
