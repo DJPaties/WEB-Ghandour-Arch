@@ -16,6 +16,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use("/uploads", express.static("uploads"));
 app.use('/extraImages', express.static('extraImages'));
+app.use('/logo',express.static("logo"))
 const db = new sqlite3.Database("database.db");
 
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="/newfeature_testing/public/style.css">
+    <link rel="stylesheet" href="../public/style.css">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,13 +9,19 @@
 </head>
 <body>
     <h1>Image Gallery</h1>
-    
+    <div class="image-form-div">
     <form id="image-form" enctype="multipart/form-data" action="/upload" method="post">
-        <input type="file" name="image" accept="image/*">
+        <input type="file" name="image" accept="image/*" id="image-input">
+        <br>
         <input type="text" name="description" placeholder="Description">
+        <br>
         <button type="submit">Add Photo</button>
+        <br>
+        <p id="selected-photo-text"></p>
     </form>
+</div>
     
+    <hr>
     <div id="image-gallery">
         <% images.forEach(image => { %>
             <div>

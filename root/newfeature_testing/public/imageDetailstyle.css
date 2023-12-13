@@ -3,6 +3,7 @@ body, h1, p, ul, li {
   margin: 0;
   padding: 0;
 }
+
 .input-container, .video-input-container{
   
   margin-top: 10px;  
@@ -38,10 +39,15 @@ body {
   
   font-size: xx-large;
 }
-
+hr{
+  height: 10px;
+  background-color: #000;
+}
 /* Your existing styles */
 
-
+#header{
+  border-bottom: 7px solid #5a5353;
+}
 
 .remove{
   margin-top: 20px;
@@ -51,9 +57,9 @@ body {
 }
 .image-detail-container {
   text-align: center;
-  max-width: 1100px;
+  max-width: auto;
   margin-left: 0 ;
-  padding: 20px;
+  /* padding: 20px; */
   background-color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   /* padding: 10px; */
@@ -66,17 +72,37 @@ body {
   margin: 0;
   margin-bottom: 20px;
   /* padding: 20px; */
-  background-color: aqua;
-  border: 10px solid black;
+  background-color: grey;
+  border-bottom: 10px solid black;
   
   
 }
 #image-detail{
-  border: 2px black solid;
+  /* border: 2px black solid; */
+  padding: 20px;
+  padding-left: 200px;
+
 }
 .image-detail img {
   max-width: 100;
   max-height: 400px;
+}
+.input-container{
+  width: 100%;
+}
+.inputProject{
+  width: 100%;
+}
+.InfoHead{
+  text-align: left;
+  padding-left: 100px;
+  font-weight: bolder;
+  font-family: 'Arial', sans-serif;
+  font-variant: small-caps;
+  font-size: 60px;
+
+
+  
 }
 
 .input-container {
@@ -91,13 +117,17 @@ body {
 
 .input-container input, .video-input-container input {
   /* margin-left: 5%; */
+
   font-size: 25px;
-  width: 100%;
+  width: 1350px;
   padding: 5px;
   border: none;
-  border-bottom: 8px solid #ccc; /* Default bottom border color */
+  border-bottom: 8px solid #ccc;
   outline: none;
   transition: border-bottom-color 0.3s ease-out;
+  width: 90%;
+  margin-bottom: 20px;
+  margin-top: 30px;
 }
 .input-container input:focus , .video-input-container input:focus{
   border-bottom-color: #000; /* Change bottom border color on focus to black */
@@ -123,9 +153,10 @@ body {
   display: block;
   font-family: 'Arial', sans-serif;
   font-size:4cm;
-  color: #333; /* Text color */
-  margin-bottom: 100px; /* Add some space below the label */  
-  margin-top: 40px;
+  color: #000000; /* Text color */
+  margin-bottom: 100px; /*Add some space below the label*/  
+  margin-top: 120px;
+  padding-left: 200px;
 }
 #add-project-spec-row {
   background-color: #4caf50;
@@ -191,6 +222,9 @@ body {
   display: flex;
   overflow-x: scroll;
   margin-top: 10px;
+  margin-top: 100px;
+  padding: 50px;
+
 }
 
 .image-slider img,.image-slider video {

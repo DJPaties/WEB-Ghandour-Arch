@@ -5,6 +5,9 @@
     <link rel="stylesheet" href="imageDetailstyle.css"> <!-- Include your CSS stylesheet here -->
 </head>
 <body>
+    <div id="header">
+        <img src="../logo/logo.png" alt="Logo" id="logo_header">
+    </div>
     <div class="image-detail-container">
         <div class="image-detail">
             <img id="image-detail" src="/uploads/<%= image.filename %>" alt="<%= image.description %>">
@@ -12,32 +15,35 @@
             <label id="project-name" ><%= image.description %></label>
             
         </div>
-        
+    <div class="InfoHead">
+        <p class="InfoHead"><u>Project Specification:</u> </p>
+
+    </div>
         <!-- New input fields -->
         <div class="input-container">
             <label for="type-project">Type/Project</label>
-            <input type="text" id="type-project" name="type-project">
+            <input class="inputProject" type="text" id="type-project" name="type-project">
         </div>
         <div class="input-container">
             <label for="location">Location</label>
-            <input type="text" id="location" name="location">
+            <input class="inputProject" type="text" id="location" name="location">
         </div>
         <div class="input-container">
             <label for="area">Area</label>
-            <input type="text" id="area" name="area">
+            <input class="inputProject" type="text" id="area" name="area">
         </div>
         <div class="input-container">
             <label for="client">Client</label>
-            <input type="text" id="client" name="client">
+            <input class="inputProject" type="text" id="client" name="client">
         </div>
         <div class="input-container">
             <label for="objective">Objective</label>
-            <input type="text" id="objective" name="objective">
+            <input class="inputProject" type="text" id="objective" name="objective">
         </div>
         <div id="inputFields">
             <label for="input">Project Specs</label>
             <div class="input-container">
-              <input type="text" class="input" placeholder="Enter something" id="input" name="input">
+              <input class="inputProject" type="text" class="input" placeholder="Enter something" id="input" name="input">
               <!-- <button class="remove">Remove</button> -->
             </div>
           </div>
@@ -47,7 +53,11 @@
          <div class="image-details-submit">
             <button type="submit" id="submit-Details">Save Details</button>
         </div>
-        
+        <hr>
+        <div class="InfoHead">
+            <p class="InfoHead"><u>Image Input:</u> </p>
+    
+        </div>
          <div class="input-container">
             <label for="image-input">Insert Images</label>
             <!-- <input type="file"  name="image" accept="image/*" multiple> -->
@@ -55,9 +65,7 @@
             <button type="submit" id="submit-images" >Upload Image</button>
 
         </div>
-        <div class="image-slider">
-            <!-- Images inserted will be displayed here -->
-        </div>
+
         <!-- Photo at the bottom -->
 
         <!-- <div class="image-submit">
@@ -68,6 +76,7 @@
                 <% filteredArray.forEach(imageName => { %>
                     <div class="multiple-images">
                         <img src="/extraImages/<%= imageName %>" alt="Image" style="width: 400px; height: 200px; object-fit: cover;">
+                        <br>
                         <button class="removeimg">Delete</button>
                     </div>
                 <% }); %>
@@ -75,9 +84,14 @@
                 <p>No images available.</p>
             <% } %>
     
-    
             
         </div>
+        <hr>
+            
+            <div class="InfoHead">
+                <p class="InfoHead"><u>Video Input:</u> </p>
+        
+            </div>
         <div class="video-input-container">
             <label for="input-video-form">Insert Videos</label>
             <input type="file" name="videos" accept="video/*" id="input-videos-form" multiple required>
@@ -95,6 +109,8 @@
 
                             Your browser does not support the video tag.
                         </video>
+                        <br>
+
                         <button class="removevideo">Delete</button>
                     </div>
                 <% }); %>
@@ -102,6 +118,7 @@
                 <p>No Videos available.</p>
             <% } %>
         </div>
+        <hr>
         <div class="next-villa">
             
                 <button id="previousVillaBtn"> Previous </button>

@@ -8,6 +8,7 @@
   margin: 10px;
   text-align: center; /* Center align the contents */
   vertical-align: top;
+  border: 3px solid grey;
 }
 
 .static_image {
@@ -63,16 +64,24 @@
 
 .DescriptivePhoto:hover .deletePhoto {
   display: block;
+
 }
+.DescriptivePhoto:hover{
+  display: block;
+  border: 6px solid black;
+  transition: 0.3s ease-in;
+}
+
+
 #image-form-block{
   padding-left: 20px;
   display: flex;
   flex-wrap: nowrap;
-  flex-direction: row;
+  flex-direction: column;
   gap: 35px;
   text-align: center;
   position: relative;
-  left: 30%;
+  left: 10%;
 }
 /* Styling for the text input */
 #description-input {
@@ -101,7 +110,7 @@
   display: inline-block;
   border-radius: 5px;
   font-size: 150%;
-  
+  width: fit-content;
 }
 
 #image-form button:hover {
@@ -125,6 +134,7 @@
   border-radius: 5px;
   border: 1px solid black;
   font-size: 150% ;
+  width: fit-content;
 }
 
 #image-input-label:hover {
@@ -140,4 +150,12 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  
 }
+hr{
+  margin-top: 80px;
+  margin-bottom: 30px;
+  height: 10px;
+  background-color: #000;
+}
+
