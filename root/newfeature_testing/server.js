@@ -24,21 +24,28 @@ const db = new sqlite3.Database("database.db");
 let uploaded_images_name = ""
 let uploaded_videos_name = ""
 
-// getting the previous Villa
-    // app.get("/previousVilla", express.json(), (req, res) => {
-    //     let ArrayimageIds = []
-    //     id = req.body.id;
-    //     db.all("Select id FROM images",(updateErr,ids)=>{
-    //         if (updateErr) {
-    //             console.error(updateErr);
-    //             res.status(500).send("Error Retreiving  image ids /previousVilla.");
-    //         } else {
-    //             const ArrayimageIds = ids.map(id=> ids.id)
-    //             console.log(ids)
-    //             res.sendStatus(200);
-    //         }
-    //     });
-    // })
+//Getting the user home page
+app.get('/user-home-page', (req, res) => {
+    db.all("SELECT id, filename, description FROM images", (err, images) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Error retrieving image details from the database.");
+        } else {
+            if (images.length > 0) {
+                images.forEach((image) => {
+                    console.log("ID:", image.id);
+                    console.log("Filename:", image.filename);
+                    console.log("Description:", image.description);
+                });
+
+                // Pass the images data to the EJS view
+                res.render('homePage', { images: images });
+            } else {
+                res.status(404).send("No images found in the database.");
+            }
+        }
+    });
+});
 
 //upload videos
 app.use("/extraVideos",express.static("extraVideos"));
@@ -536,7 +543,7 @@ app.post("/uploadNewVilla", uploadNewVilla.single("image"), async (req, res) => 
 
 // Display images on homepage
 app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/public/index.html");
+    
 });
 
 // Start the server
