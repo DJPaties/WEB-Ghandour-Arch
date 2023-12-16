@@ -23,6 +23,74 @@ const db = new sqlite3.Database("database.db");
 //variables
 let uploaded_images_name = ""
 let uploaded_videos_name = ""
+//getting the user info page
+// Add this route after the user-home-page route
+// app.get('/info/:id', (req, res) => {
+//     const imageId = req.params.id;
+
+//     // Retrieve information for the specified image from the database
+//     db.all("SELECT * FROM images WHERE id = ?", [imageId], (err, image) => {
+//         if (err) {
+//             console.error(err);
+//             res.status(500).send("Error retrieving image details from the database.");
+//         } else {
+//             if (image) {
+//                 // Render the info page with image details
+//                 console.log(image)
+//                 res.render('info', { image: image });
+//             } else {
+//                 res.status(404).send("Image not found in the database.");
+//             }
+//         }
+//     });
+// });
+app.get('/info/:id', (req, res) => {
+    const imageId = req.params.id;
+    console.log("THE IMAGE ID IS ", imageId)
+    // Retrieve information for the specified image from the database
+    db.all("SELECT id, filename, description, type_project, area, location, client, objective, project_specs, additional_images, additional_videos FROM images where id =?",[imageId], (err, images) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Error retrieving image details from the database.");
+        } else {
+            if (images.length > 0) {
+                // images.forEach((image) => {
+                //     // console.log("Filename:", image.filename);
+                //     // console.log("Description:", image.description);
+                //     // console.log("type_project:", image.type_project);
+                //     // console.log("area:", image.area);
+                //     // console.log("location:", image.location);
+                //     // console.log("client:", image.client);
+                //     // console.log("objective:", image.objective);
+                //     // console.log("additional_images:", image.additional_images);
+                //     // console.log("additional_videos:", image.additional_videos);
+                //     // console.log("project_specs:", image.project_specs);
+                // });
+                db.all("SELECT id FROM images", (updateErr, ids) => {
+                    if (updateErr) {
+                        console.error(updateErr);
+                        res.status(500).send("Error retrieving image IDs.");
+                    } else {
+                        const ArrayimageIds = ids.map(id => id.id);
+                        images[0].allImageIds = ArrayimageIds; // Append the array to the image object
+                        // res.json(image);
+                        console.log(images)
+                        res.render('info', { image: images });
+                    }
+                });
+                // Pass the images data to the EJS view
+                
+            } else {
+                res.status(404).send("No images found in the database.");
+            }
+        }
+    });
+});
+
+// Add this route at the end to handle the info page rendering
+app.get('/info', (req, res) => {
+    res.render('info', { image: null }); // You can customize this if needed
+});
 
 //Getting the user home page
 app.get('/user-home-page', (req, res) => {
