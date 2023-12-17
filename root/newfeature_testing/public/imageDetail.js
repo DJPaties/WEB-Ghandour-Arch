@@ -176,6 +176,8 @@ video_submit_button.addEventListener('click', (event) => {
       newInput.innerHTML = `
             <input type="text" class="input" placeholder="Enter something" value="${firstElement}">
             <br>
+            <br>
+            <br>
             <button class="remove">Remove</button>
         `;
         inputContainer.appendChild(newInput);

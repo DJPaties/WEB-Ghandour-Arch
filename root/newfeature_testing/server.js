@@ -4,6 +4,8 @@ const sqlite3 = require("sqlite3").verbose();
 const fs = require('fs');
 const path = require('path');
 const { Console } = require("console");
+const session = require('express-session');
+const bodyParser = require('body-parser');
 
 
 const app = express();
@@ -23,27 +25,51 @@ const db = new sqlite3.Database("database.db");
 //variables
 let uploaded_images_name = ""
 let uploaded_videos_name = ""
+
+//session login credentials
+// Use session middleware
+app.use(session({
+    secret: 'secret-key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 3600000, // 10 seconds in milliseconds
+    }
+}));
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+  // Middleware to check if the user is authenticated
+  const authenticate = (req, res, next) => {
+    if (req.session && req.session.authenticated) {
+        return next();
+    } else {
+        req.session.destroy(); // Destroy the session to clear any existing authentication
+        return res.redirect('/login');
+    }
+};
+
+// Login route
+app.get('/login', (req, res) => {
+    res.render('login');
+  });
+
+  // Authentication route
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+  
+    // You should check the credentials against your database or any other authentication method
+    if (username === 'Arch' && password === 'ghandourArch') {
+      // Set the session as authenticated
+      req.session.authenticated = true;
+      res.redirect('/admin');
+    } else {
+      res.send('Sorry, not an admin!');
+    }
+  });
+
 //getting the user info page
 // Add this route after the user-home-page route
-// app.get('/info/:id', (req, res) => {
-//     const imageId = req.params.id;
-
-//     // Retrieve information for the specified image from the database
-//     db.all("SELECT * FROM images WHERE id = ?", [imageId], (err, image) => {
-//         if (err) {
-//             console.error(err);
-//             res.status(500).send("Error retrieving image details from the database.");
-//         } else {
-//             if (image) {
-//                 // Render the info page with image details
-//                 console.log(image)
-//                 res.render('info', { image: image });
-//             } else {
-//                 res.status(404).send("Image not found in the database.");
-//             }
-//         }
-//     });
-// });
 app.get('/info/:id', (req, res) => {
     const imageId = req.params.id;
     console.log("THE IMAGE ID IS ", imageId)
@@ -184,24 +210,6 @@ app.post('/uploadVideos', Videoupload.array('videos', 15), (req, res) => {
     // Do not send a response here; it's already being sent inside the callback above
     // res.send('Image uploaded successfully!');
 });
-
-
-
-//clear columns of database
-// app.get('/test/clear', (req, res) => {
-//     const id = 1; // Change the ID as needed
-
-//     // Update the database to clear the additional images for the specified ID
-//     db.run("ALTER Table images ADD COLUMN additional_videos TEXT", (err) => {
-//         if (err) {
-//             console.error(err);
-//             res.status(500).send('Error clearing additional images in the database.');
-//         } else {
-//             res.send('Additional images cleared successfully!');
-//         }
-//     });
-// });
-
 
 //Deleet Videos
 app.post("/deleteextravideo", express.json(), (req, res) => {
@@ -545,7 +553,8 @@ app.get("/images", (req, res) => {
             console.error(err);
             res.status(500).json({ error: "Error retrieving images from database." });
         } else {
-            res.json(images);
+            // res.render('index',{images:images});
+            res.json(images)
         }
     });
 });
@@ -610,8 +619,15 @@ app.post("/uploadNewVilla", uploadNewVilla.single("image"), async (req, res) => 
 
 
 // Display images on homepage
-app.get("/", (req, res) => {
-    
+app.get("/admin", authenticate, (req, res) => {
+
+    res.render('index');
+});
+app.get('/', (req, res) => {
+    res.redirect('/user-home-page');
+});
+app.get('', (req, res) => {
+    res.redirect('/user-home-page');
 });
 
 // Start the server

@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="../public/style.css">
+    <link rel="stylesheet" href="style.css">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,14 +23,40 @@
     
     <hr>
     <div id="image-gallery">
-        <% images.forEach(image => { %>
-            <div>
-                <img src="/uploads/<%= image.filename %>" alt="Image <%= image.id %>">
-                <p><%= image.description %></p>
-            </div>
-        <% }); %>
+        
     </div>
     
-    <script src="/newfeature_testing/public/script.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+</head>
+<body>
+    <div id="topPage"><p id="toptitle">Image Gallery</p></div>
+    
+    
+    <form id="image-form" enctype="multipart/form-data" action="/uploadNewVilla" method="post">
+        
+        <div id="image-form-block">
+        <label id="image-input-label" for="image-input">Choose File</label><br>
+        <input type="file" id="image-input" name="image" accept="image/*">
+        <input type="text" id="description-input" name="description" placeholder="Description">
+        <button type="submit">Add Photo</button>
+    </div>
+    </form>
+    <hr>
+
+    <div id="image-gallery">
+        <!-- Images and descriptions will be added here -->
+    </div>
+    
+    <script src="script.js"></script>
 </body>
 </html>
+
